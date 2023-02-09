@@ -24,7 +24,6 @@ function App() {
             <Route path='/page2' element={<Page2></Page2>}></Route>
           </Routes>
         </BrowserRouter>
-          
       </div>
     </ThemeProvider>
   )
