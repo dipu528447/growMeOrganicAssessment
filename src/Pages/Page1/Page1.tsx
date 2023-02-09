@@ -3,8 +3,9 @@ import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
 import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
-import {useState} from 'react'
-import { Link } from 'react-router-dom'
+import {useContext, useEffect, useState} from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { DataContext } from '../../App';
 
 const Page1 = () => {
 
@@ -17,7 +18,15 @@ const Page1 = () => {
     const {name,email,phone}=data  
     const [err,setErr]=useState(''); //error message state
     const [open, setOpen] = useState(false); //alert showing state
-    
+    const {dataValue,setDataValue}=useContext(DataContext)  //data context API
+    const navigate=useNavigate(); // navigation hook 
+
+    useEffect(()=>{
+        if(dataValue){
+            navigate('/page2')
+        }
+    },[dataValue])
+
     // validataion start
     function valid(){
         if(data.name){
@@ -45,7 +54,8 @@ const Page1 = () => {
         event.preventDefault()
         if(valid()){
             storeDataonLocalStorage()
-            
+            setDataValue(true)
+            console.log(dataValue) 
         }
         else{
             setOpen(true);
@@ -109,7 +119,7 @@ const Page1 = () => {
                             onChange={handleChange}
                         />
                     </FormControl>
-                    <Link to="/page2"><Button variant="contained" type="submit">Save</Button></Link>
+                    <Button variant="contained" type="submit">Save</Button>
                     
                 </form>
                 {/* Form design end */}

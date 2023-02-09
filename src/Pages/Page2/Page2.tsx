@@ -1,8 +1,9 @@
 import { Button } from '@mui/material';
 import Box from '@mui/material/Box';
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
-import { useState,useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useState,useEffect, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { DataContext } from '../../App';
 
 
 // Model start
@@ -18,12 +19,21 @@ interface dataModel{
 const Page2 = () => {
 
   const [data,setData]=useState([])   // state for store data
+  const {dataValue,setDataValue}=useContext(DataContext)
+  const navigate=useNavigate();
 
   //load json file
-    useEffect(()=>{
+    useEffect(()=>{    
       fetch('https://jsonplaceholder.typicode.com/posts')
       .then(res=>res.json())
       .then(result=>setData(result))
+    },[])
+
+    useEffect(()=>{
+      // check the datavalue entried or not if not then navigate to front page.
+      if(!dataValue){
+          navigate('/')
+      }
     },[])
 
 
