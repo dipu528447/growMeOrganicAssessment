@@ -14,18 +14,21 @@ interface dataModel{
 }
 // Model end
 
-
+// user data model start 
 interface userType{
   name:string
 }
+//user data model end
 
 const Page2 = () => {
 
   const [data,setData]=useState([])   // state for store data
   const {dataValue,setDataValue}=useContext(DataContext)
   const navigate=useNavigate();
-  let user : string | null = localStorage.getItem('user');
-  const userData: userType = user? JSON.parse(user):{name:""}
+  let user : string | null = localStorage.getItem('user');  //to get data from localstorage
+  const userData: userType = user? JSON.parse(user):{name:""}  // parse in object
+  
+  
   //load json file
     useEffect(()=>{    
       fetch('https://jsonplaceholder.typicode.com/posts')
@@ -33,8 +36,8 @@ const Page2 = () => {
       .then(result=>setData(result))
     },[])
 
+    // check the datavalue entried or not if not then navigate to front page.
     useEffect(()=>{
-      // check the datavalue entried or not if not then navigate to front page.
       if(!dataValue){
           navigate('/')
       }
