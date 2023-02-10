@@ -1,4 +1,3 @@
-import { Button } from '@mui/material';
 import Box from '@mui/material/Box';
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import { useState,useEffect, useContext } from 'react';
@@ -16,12 +15,17 @@ interface dataModel{
 // Model end
 
 
+interface userType{
+  name:string
+}
+
 const Page2 = () => {
 
   const [data,setData]=useState([])   // state for store data
   const {dataValue,setDataValue}=useContext(DataContext)
   const navigate=useNavigate();
-
+  let user : string | null = localStorage.getItem('user');
+  const userData: userType = user? JSON.parse(user):{name:""}
   //load json file
     useEffect(()=>{    
       fetch('https://jsonplaceholder.typicode.com/posts')
@@ -35,7 +39,6 @@ const Page2 = () => {
           navigate('/')
       }
     },[])
-
 
     //Column header
     const columns: GridColDef[] = [
@@ -67,6 +70,7 @@ const Page2 = () => {
 
     return (
         <div>
+            <h4 style={{textAlign: 'right', color: 'blue'}}>Welcome {userData?.name}!!!</h4>
             <Box style={{ height: 700, width: '80vw',margin:'20px 0px', overflowX: 'scroll' }}>
                 <DataGrid
                     rows={rows}
@@ -78,7 +82,6 @@ const Page2 = () => {
                     experimentalFeatures={{ newEditingApi: true }}
                 />
             </Box>
-            <Link to="/"><Button variant="contained">Back</Button></Link> {/* ADD A BACK BUTTON TO RETURN TO FRONT PAGE */}
         </div>
     );
 };
